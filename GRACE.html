@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Grace 💖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+
+body{
+background:linear-gradient(135deg,#ff758c,#ff7eb3);
+color:white;
+text-align:center;
+overflow-x:hidden;
+}
+
+section{
+min-height:100vh;
+display:none;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+padding:30px;
+}
+
+.active{display:flex;}
+
+button{
+padding:12px 25px;
+border:none;
+border-radius:30px;
+cursor:pointer;
+font-weight:bold;
+margin:10px;
+background:white;
+color:#ff4e7a;
+transition:0.3s;
+}
+
+button:hover{transform:scale(1.1);}
+
+/* Secret heart button */
+#secretHeart{
+display:none;
+font-size:32px;
+background:none;
+border:none;
+cursor:pointer;
+animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+0%{transform:scale(1);}
+50%{transform:scale(1.2);}
+100%{transform:scale(1);}
+}
+
+/* Letter Page */
+#letterPage{
+position:relative;
+overflow:hidden;
+}
+
+#secretParagraph{
+font-family:'Dancing Script', cursive;
+font-size:22px;
+line-height:1.9;
+white-space:pre-line;
+max-width:700px;
+margin:20px auto;
+}
+
+.heart{
+position:fixed;
+top:-20px;
+font-size:20px;
+animation:fallHearts linear forwards;
+pointer-events:none;
+}
+
+@keyframes fallHearts{
+to{
+transform:translateY(110vh);
+opacity:0;
+}
+}
+
+/* LOADING */
+#loading h1{
+animation:fade 2s infinite alternate;
+}
+@keyframes fade{
+from{opacity:0.6;}
+to{opacity:1;}
+}
+
+/* TIMELINE */
+.timeline div{
+margin:10px;
+padding:15px;
+background:rgba(255,255,255,0.2);
+border-radius:15px;
+max-width:500px;
+}
+
+/* SMILE SECTION */
+.smile-container{
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:30px;
+max-width:700px;
+}
+
+.smile-image-wrapper{
+position:relative;
+width:280px;
+height:280px;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.smile-image{
+width:260px;
+height:260px;
+object-fit:cover;
+border-radius:30px;
+animation:slowZoom 8s ease-in-out infinite alternate;
+box-shadow:0 0 40px white;
+}
+
+.glow{
+position:absolute;
+width:280px;
+height:280px;
+border-radius:40px;
+background:radial-gradient(circle, rgba(255,255,255,0.6) 0%, transparent 70%);
+animation:pulseGlow 3s infinite alternate;
+z-index:-1;
+}
+
+@keyframes slowZoom{
+from{transform:scale(1);}
+to{transform:scale(1.05);}
+}
+
+@keyframes pulseGlow{
+from{opacity:0.6;}
+to{opacity:1;}
+}
+
+.smile-text{
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+.line{
+opacity:0;
+transform:translateY(20px);
+animation:fadeUp 1s forwards;
+}
+
+.line:nth-child(1){animation-delay:0.5s;}
+.line:nth-child(2){animation-delay:1.5s;}
+.line:nth-child(3){animation-delay:2.5s;}
+.line:nth-child(4){animation-delay:3.5s;}
+.line:nth-child(5){animation-delay:4.5s;}
+
+@keyframes fadeUp{
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+/* FINAL PAGE */
+.final-container{
+display:flex;
+flex-wrap:wrap;
+align-items:center;
+justify-content:center;
+gap:40px;
+}
+
+.collage{
+display:grid;
+grid-template-columns:repeat(2,120px);
+gap:15px;
+}
+
+.collage img{
+width:120px;
+height:120px;
+object-fit:cover;
+border-radius:20px;
+box-shadow:0 0 20px white;
+transition:0.4s;
+animation:float 4s ease-in-out infinite;
+}
+
+.collage img:hover{
+transform:scale(1.1) rotate(3deg);
+box-shadow:0 0 40px white;
+}
+
+@keyframes float{
+0%{transform:translateY(0px);}
+50%{transform:translateY(-10px);}
+100%{transform:translateY(0);}
+}
+
+.final-content{max-width:600px;}
+
+.main-title{
+font-size:2.2rem;
+margin-bottom:20px;
+animation:glow 2s infinite alternate;
+}
+
+@keyframes glow{
+from{text-shadow:0 0 10px white;}
+to{text-shadow:0 0 30px white;}
+}
+
+.final-box{
+background:rgba(255,255,255,0.2);
+padding:25px;
+border-radius:20px;
+backdrop-filter:blur(10px);
+transition:0.4s;
+cursor:pointer;
+}
+
+.final-box:hover{
+transform:scale(1.05);
+box-shadow:0 0 40px white;
+}
+
+.hoverHint{
+margin-top:15px;
+font-size:0.9rem;
+opacity:0.8;
+}
+
+canvas{
+position:fixed;
+top:0;
+left:0;
+pointer-events:none;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🎵 Christian Instrumental Background Music -->
+<audio id="bgMusic" loop>
+  <source src="christian.mp3" type="audio/mpeg">
+</audio>
+
+<canvas id="confetti"></canvas>
+
+<section id="loading" class="active">
+<h1>Preparing something special for Mawi... 🤭</h1>
+</section>
+
+<section id="love">
+<h1>Do you love Siam? 😏</h1>
+<button onclick="showSection('quiz')">YES OBVIOUSLY 💕</button>
+<button id="runaway">No 😶</button>
+</section>
+
+<section id="quiz">
+<h1>Who fell first? 😌</h1>
+<button onclick="answerQuiz()">You 😏</button>
+<button onclick="answerQuiz()">Me 😳</button>
+<button onclick="answerQuiz()">Both but accidental</button>
+<p id="quizMsg"></p>
+<button id="continueBtn" style="display:none;" onclick="showSection('timeline')">Continue 💕</button>
+</section>
+
+<section id="timeline">
+<h1>Our Story 💖</h1>
+<div class="timeline">
+<div>✨ The day we started talking</div> 
+<div>💕 The Time We Played Games Together</div>
+<div>💭 The misunderstandings we survived</div>
+<div>❤️ Still choosing each other</div>
+</div>
+<button onclick="showSection('photo')">Next</button>
+</section>
+
+<section id="photo">
+<div class="smile-container">
+<div class="smile-image-wrapper">
+<div class="glow"></div>
+<img src="C:\Users\SuyashSumedh\Downloads\GRACECECE\mawi_smile.jpg.jpeg" class="smile-image">
+</div>
+<div class="smile-text">
+<p class="line">That smile...</p>
+<p class="line">The one that makes my worst days softer.</p>
+<p class="line">The one that makes distance feel smaller.</p>
+<p class="line">The one that doesn't even try...</p>
+<p class="line">...yet still owns my heart completely.</p>
+</div>
+</div>
+<button onclick="showSection('hold')">One Last Thing</button>
+</section>
+
+<section id="hold">
+<h1>Press & Hold ❤️</h1>
+<button id="holdBtn">Hold Me</button>
+</section>
+
+<section id="final">
+<div class="final-container">
+
+<div class="collage">
+<img src="C:\Users\SuyashSumedh\Downloads\GRACECECE\mawi_smile.jpg1.jpeg">
+<img src="C:\Users\SuyashSumedh\Downloads\GRACECECE\mawi_smile.jpg2.jpeg">
+<img src="C:\Users\SuyashSumedh\Downloads\GRACECECE\mawi_smile.jpg3.jpeg">
+<img src="C:\Users\SuyashSumedh\Downloads\GRACECECE\mawi_smile.jpg4.jpeg">
+</div>
+
+<div class="final-content">
+<h1 class="main-title">Happy Valentine's Day, Grace 💖</h1>
+<div class="final-box" id="loveBox">
+<p id="finalText"></p>
+</div>
+
+<button id="secretHeart">❤️</button>
+
+<p class="hoverHint">Move your mouse or finger here 🤭</p>
+</div>
+</div>
+</section>
+
+<section id="letterPage">
+<h1>For You 💌</h1>
+<p id="secretParagraph"></p>
+<button onclick="showSection('final')">Go Back 💕</button>
+</section>
+
+<script>
+
+// ===== BACKGROUND MUSIC SYSTEM =====
+let musicStarted = false;
+let bgMusic = document.getElementById("bgMusic");
+bgMusic.volume = 0;
+
+function playMusic() {
+  if (!musicStarted) {
+    bgMusic.play();
+    fadeInMusic();
+    musicStarted = true;
+  }
+}
+
+function fadeInMusic(){
+  let vol = 0;
+  let fade = setInterval(function(){
+    if(vol < 0.4){
+      vol += 0.02;
+      bgMusic.volume = vol;
+    } else {
+      clearInterval(fade);
+    }
+  }, 200);
+}
+
+// Required for mobile autoplay rules
+document.addEventListener("click", playMusic);
+document.addEventListener("touchstart", playMusic);
+
+// ===== SECTION SWITCH =====
+function showSection(id){
+document.querySelectorAll("section").forEach(sec=>sec.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+
+// Play music when love page shows
+if(id === "love"){
+  playMusic();
+}
+}
+
+setTimeout(()=>showSection('love'),2500);
+
+// ===== RUNAWAY BUTTON =====
+let runaway=document.getElementById("runaway");
+runaway.addEventListener("mouseover",()=>moveButton());
+runaway.addEventListener("touchstart",()=>moveButton());
+runaway.addEventListener("click",()=>moveButton());
+
+function moveButton(){
+runaway.style.transform="translate("+(Math.random()*120-60)+"px,"+(Math.random()*60-30)+"px)";
+}
+
+// ===== QUIZ =====
+function answerQuiz(){
+document.getElementById("quizMsg").innerHTML="We're both idiots in love 😌💕";
+document.getElementById("continueBtn").style.display="inline-block";
+}
+
+// ===== HOLD BUTTON =====
+let holdTimer;
+let holdBtn=document.getElementById("holdBtn");
+
+holdBtn.addEventListener("mousedown",startHold);
+holdBtn.addEventListener("touchstart",startHold);
+holdBtn.addEventListener("mouseup",cancelHold);
+holdBtn.addEventListener("mouseleave",cancelHold);
+holdBtn.addEventListener("touchend",cancelHold);
+
+function startHold(){
+holdTimer=setTimeout(showFinal,1200);
+}
+function cancelHold(){clearTimeout(holdTimer);}
+
+function showFinal(){
+showSection('final');
+
+let text=`Grace...
+
+I love you in your quiet phases.
+I love you when you overthink.
+I love you when you're healing.
+
+Distance doesn't scare me.
+The only thing that scares me is a future without you.
+
+You are my peace.
+My comfort.
+My safe place.
+
+Happy Valentine's Day, Mawi.
+I choose you. Always. ❤️`;
+
+let i=0;
+let finalText=document.getElementById("finalText");
+finalText.innerHTML="";
+document.getElementById("secretHeart").style.display="none";
+
+function type(){
+if(i<text.length){
+finalText.innerHTML+=text.charAt(i);
+i++;
+setTimeout(type,35);
+}else{
+document.getElementById("secretHeart").style.display="inline-block";
+}
+}
+type();
+
+activateHeartRain();
+confetti();
+}
+
+document.getElementById("secretHeart").addEventListener("click",function(){
+showSection('letterPage');
+startLetterEffects();
+});
+
+function startLetterEffects(){
+
+let text=`🫠
+
+And I want to say something honestly…
+
+I know I've hurt you sometimes. I know I've made mistakes, said things out of jealousy, confusion, or overthinking. And I'm truly sorry for that.
+
+I'm not perfect. I struggle to read emotions through text. Even when you're clear, I sometimes misunderstand. English isn't easy for me. Expressing myself isn't easy for me. But loving you has always been real.
+
+That night when I wasn't there the way you needed me… I regret it deeply. I didn't even realize when I fell asleep. I wish I could redo that moment. I'm sorry from my heart.
+
+About the jealousy -- especially about God -- I want you to know it doesn't come from hate. It comes from insecurity. I'm still learning how to handle those feelings maturely. I may not believe the same way you do, but I respect your faith. I just need time to grow.
+
+About Pinterest -- I genuinely didn't know you followed me. When I checked and saw things differently, it made me overthink and react emotionally. I shouldn't have said what I said. That was my mistake.
+
+I'm not a demon. I'm not trying to ruin anything. I'm just a young boy still learning how to love properly. And I want to grow. I want to become better -- not just for you, but for myself.
+
+Even when we fight, even when I get angry, the truth is simple: you are the only person I've loved like this.
+
+I don't want to pressure you. I don't want to trap you. I just want to build something healthier, stronger, and more mature together.
+
+I hope we both grow. I hope we both heal. I hope we both achieve our dreams -- maybe side by side.
+
+Thank you for loving me despite my flaws.
+And I promise I'm trying to become someone worthy of loving you better.
+
+Wishing you the happiest and most beautiful Valentine's Day 💝
+
+Yours,  
+Sumedh`;
+
+let i=0;
+let paragraph=document.getElementById("secretParagraph");
+paragraph.innerHTML="";
+
+function typeLetter(){
+if(i<text.length){
+paragraph.innerHTML+=text.charAt(i);
+i++;
+setTimeout(typeLetter,40);
+}
+}
+typeLetter();
+
+setInterval(()=>{
+let heart=document.createElement("div");
+heart.classList.add("heart");
+heart.innerHTML="💝";
+heart.style.left=Math.random()*window.innerWidth+"px";
+heart.style.animationDuration=(Math.random()*3+4)+"s";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),7000);
+},500);
+}
+
+</script>
+
+</body>
+</html>
